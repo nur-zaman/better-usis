@@ -1,7 +1,7 @@
 # Better USIS
 Modern Interface and functionality for BRAC University's Student Information System.
 
-![mockup](docs\mockups.png)
+![mockup](docs/mockups.png)
 
 This project is a work in progress.
 
