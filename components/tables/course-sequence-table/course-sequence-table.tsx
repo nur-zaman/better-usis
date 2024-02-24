@@ -14,6 +14,9 @@ import { AxiosInstance } from "axios";
 
 export async function CourseTable({ client }: { client: AxiosInstance }) {
   const courseSequence = await getCourseSeq(client);
+  if (courseSequence.length === 0) {
+    return <div>No data found in USIS....</div>;
+  }
 
   return (
     <Table>
