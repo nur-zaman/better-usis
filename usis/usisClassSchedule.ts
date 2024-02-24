@@ -1,7 +1,5 @@
-import { ClassSchedule } from '@/constants/data';
-import { AxiosInstance } from 'axios';
-
-
+import { ClassScheduleForCourseDetails } from "@/types/usisTypes";
+import { AxiosInstance } from "axios";
 
 interface ClassScheduleResponse {
   page: number;
@@ -26,12 +24,12 @@ interface ClassScheduleRow {
     string, // Example: "04-09-2023"
     string, // Example: "Reserved Day 2(02:00 PM-04:00 PM)"
     string, // Example: "02:00 PM-03:20 PM"
-    string,   // You need to replace these nulls with the actual data types
+    string, // You need to replace these nulls with the actual data types
     string, // Example: "02:00 PM-03:20 PM"
-    string,   // You need to replace these nulls with the actual data types
-    string,   // You need to replace these nulls with the actual data types
-    string,   // You need to replace these nulls with the actual data types
-    string    // You need to replace these nulls with the actual data types
+    string, // You need to replace these nulls with the actual data types
+    string, // You need to replace these nulls with the actual data types
+    string, // You need to replace these nulls with the actual data types
+    string, // You need to replace these nulls with the actual data types
   ];
   class: string;
   id: string; // You need to replace this null with the actual data type
@@ -47,6 +45,12 @@ interface TimeSlotDay {
   orderNo: number;
 }
 
+const extractExamTime = (input: string): string | null => {
+  const examTimeRegex = /\((\d{2}:\d{2} [APap][Mm]-\d{2}:\d{2} [APap][Mm])\)/;
+  const match = input.match(examTimeRegex);
+  return match ? match[1] : null;
+};
+
 export const convertToClassSchedule = (cell: any) => {
   return {
     id: cell[0],
@@ -58,9 +62,7 @@ export const convertToClassSchedule = (cell: any) => {
     examDate: cell[9],
     examTime:
       cell[10] && typeof cell[10] === "string"
-        ? cell[10].match(
-            /\((\d{2}:\d{2} [APap][Mm]-\d{2}:\d{2} [APap][Mm])\)/,
-          )[1]
+        ? extractExamTime(cell[10])
         : null,
     sunday: cell[11],
     monday: cell[12],
@@ -72,34 +74,40 @@ export const convertToClassSchedule = (cell: any) => {
   };
 };
 
-async function getClassSchedule( client: AxiosInstance, sessionID: string,rows: number, page:number){
+async function getClassSchedule(
+  client: AxiosInstance,
+  sessionID: string,
+  rows: number,
+  page: number,
+) {
   const ClassScheduleURL = `https://usis.bracu.ac.bd/academia/academicSection/listAcademicSectionWithSchedule?academiaSession=${sessionID}&rows=${rows}&page=${page}`;
-// console.log(ClassScheduleURL)
+  // console.log(ClassScheduleURL)
   try {
     const response = await client.get<ClassScheduleResponse>(ClassScheduleURL);
     const res = response.data;
 
-    const classSchedule: ClassSchedule[] = res.rows.map((item) =>
-    convertToClassSchedule(item.cell),
-  );
-  return classSchedule;
+    const classSchedule: ClassScheduleForCourseDetails[] = res.rows.map(
+      (item) => convertToClassSchedule(item.cell),
+    );
+    return classSchedule;
   } catch (error) {
-    console.error('Error during data scraping:', error);
+    console.error("Error during data scraping:", error);
     return undefined;
   }
 }
 
-async function getClassScheduleColumns( client: AxiosInstance): Promise<TimeSlotDay[] | undefined> {
+async function getClassScheduleColumns(
+  client: AxiosInstance,
+): Promise<TimeSlotDay[] | undefined> {
   const url = `https://usis.bracu.ac.bd/academia/academicSection/loadAcademicSectionWithScheduleGrid`;
 
   try {
     const response = await client.get<TimeSlotDay[]>(url);
     return response.data;
   } catch (error) {
-    console.error('Error during data fetching:', error);
+    console.error("Error during data fetching:", error);
     return undefined;
   }
 }
 
-
-export{getClassSchedule,getClassScheduleColumns};
+export { getClassSchedule, getClassScheduleColumns };

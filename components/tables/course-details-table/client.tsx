@@ -102,7 +102,7 @@ export const UserClient: React.FC<CourseDetailsProps> = ({
               {[
                 parseInt(currentSemesterID) - 2,
                 parseInt(currentSemesterID) - 1,
-                currentSemesterID,
+                parseInt(currentSemesterID),
                 parseInt(currentSemesterID) + 1,
               ].map((item) => {
                 return (

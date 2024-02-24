@@ -8,9 +8,10 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "./ui/separator";
 import { School, GraduationCap } from "lucide-react";
+import { convertedTimeSlot } from "@/usis/usisClassRoutine";
 
 type Props = {
-  upcomingClasses: any;
+  upcomingClasses: Array<convertedTimeSlot & { day: string; time: string }>;
 };
 
 export default function UpcominClassesCard({ upcomingClasses }: Props) {

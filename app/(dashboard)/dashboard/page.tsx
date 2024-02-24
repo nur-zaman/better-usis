@@ -1,14 +1,6 @@
-import { Overview } from "@/components/overview";
 import UpcomingEvents from "@/components/upcoming-events";
-import { Button } from "@/components/ui/button";
 import { CourseTable } from "@/components/tables/course-sequence-table/course-sequence-table";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CGPAPlot } from "@/components/cgpa";
@@ -23,7 +15,6 @@ import getClassRoutineData, {
 } from "@/usis/usisClassRoutine";
 import getClient from "@/usis/usisSession";
 import { AxiosInstance } from "axios";
-import { Separator } from "@/components/ui/separator";
 import OngoingClassCard from "@/components/ongoing-class-card";
 import UpcominClassesCard from "@/components/upcoming-classes";
 import { getGradeSheetData } from "@/usis/usisGradeSheet";
@@ -31,16 +22,22 @@ import NextSemResult from "@/components/NextSemResult";
 
 export default async function page() {
   const cookieStore = cookies();
-  const email = cookieStore.get("username").value;
-  const password = cookieStore.get("pwd").value;
+  const email = cookieStore.get("username")?.value || "";
+  const password = cookieStore.get("pwd")?.value || "";
+
+  const client: AxiosInstance | undefined = await getClient(email, password);
   // console.log(cookieStore);
   // console.log(email, password);
-  const client: AxiosInstance = await getClient(email, password);
+  if (!client) {
+    throw new Error("Client is undefined");
+  }
 
   const classRoutineData = await getClassRoutineData(client);
+  if (!classRoutineData) {
+    throw new Error("Class Routine Data is undefined");
+  }
   const classDetails = getOngoingAndUpcomingClasses(classRoutineData);
   const gradesheetData = await getGradeSheetData(client);
-  // console.log(gradesheetData);
   return (
     <Suspense fallback={<Loading></Loading>}>
       <ScrollArea className="h-full">
@@ -122,7 +119,7 @@ export default async function page() {
                     <CardTitle>Course Plan Table</CardTitle>
                   </CardHeader>
                   <CardContent className="pl-2">
-                    <CourseTable />
+                    <CourseTable client={client} />
                   </CardContent>
                 </Card>
               </div>

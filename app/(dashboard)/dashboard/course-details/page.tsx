@@ -21,10 +21,10 @@ type paramsProps = {
 
 export default async function page({ searchParams }: paramsProps) {
   const cookieStore = cookies();
-  const email = cookieStore.get("username").value;
-  const password = cookieStore.get("pwd").value;
+  const email = cookieStore.get("username")?.value || "";
+  const password = cookieStore.get("pwd")?.value || "";
 
-  const client: AxiosInstance = await getClient(email, password);
+  const client: AxiosInstance | undefined = await getClient(email, password);
 
   const sem: string = searchParams.sem || currentSemester.id;
 
@@ -40,12 +40,14 @@ export default async function page({ searchParams }: paramsProps) {
             <TabsTrigger value="prereq">Prerequisites</TabsTrigger>
           </TabsList>
           <TabsContent value="Course Time Schedule" className="space-y-4">
-            <Suspense fallback={<Loading />}>
-              <CourseDetailsLoader
-                client={client}
-                sem={sem}
-              ></CourseDetailsLoader>
-            </Suspense>
+            {client && (
+              <Suspense fallback={<Loading />}>
+                <CourseDetailsLoader
+                  client={client}
+                  sem={sem}
+                ></CourseDetailsLoader>
+              </Suspense>
+            )}
             {/* <Suspense fallback={<Loading />}>
              
               <UserClient

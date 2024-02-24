@@ -1,12 +1,8 @@
-import {load} from 'cheerio';
-import {AxiosInstance} from 'axios';
-
-
-
-
+import { CheerioAPI, load } from "cheerio";
+import { AxiosInstance } from "axios";
 
 // Function to extract program information
-const extractProgramInfo = ($) => {
+const extractProgramInfo = ($: CheerioAPI) => {
   const program = {
     programName: $(".element-input-value-program font.choice-color")
       .text()
@@ -17,7 +13,7 @@ const extractProgramInfo = ($) => {
 };
 
 // Function to extract student information
-const extractStudentInfo = ($) => {
+const extractStudentInfo = ($: CheerioAPI) => {
   const student = {
     studentID: $(".element-input-value").eq(0).text().trim(),
     fullName: $(".element-input-value").eq(1).text().trim(),
@@ -42,19 +38,35 @@ const extractStudentInfo = ($) => {
 };
 
 // Function to extract educational information
-const extractEducationalInfo = ($) => {
-  const exams = [];
+interface RowData {
+  institute: string;
+  board: string;
+  passingYear: string;
+  academicGroup: string;
+  resultType: string;
+  gpaWithAdditional: string;
+  gpaWithoutAdditional: string;
+  medium: string;
+}
+
+interface ExamDetails {
+  examTitle: string;
+  data: RowData[];
+}
+
+const extractEducationalInfo = ($: CheerioAPI): ExamDetails[] => {
+  const exams: ExamDetails[] = [];
   $(".exam-title").each((index, element) => {
-    const examTitle = $(element).text().trim();
+    const examTitle: string = $(element).text().trim();
     const table = $(element).next(".body-table-main-div").find(".table-body");
     const rows = table.find("tr").slice(1); // Skip header row
-    const examDetails = {
+    const examDetails: ExamDetails = {
       examTitle,
       data: [],
     };
     rows.each((rowIndex, row) => {
       const columns = $(row).find(".table-tr-td-body");
-      const rowData = {
+      const rowData: RowData = {
         institute: columns.eq(0).text().trim(),
         board: columns.eq(1).text().trim(),
         passingYear: columns.eq(2).text().trim(),
@@ -72,7 +84,7 @@ const extractEducationalInfo = ($) => {
 };
 
 // Function to extract guardian information
-const extractGuardianInfo = ($) => {
+const extractGuardianInfo = ($: CheerioAPI) => {
   const guardian = {
     fatherName: $(".element-input-value").eq(16).text().trim(),
     fatherOccupation: $(".element-input-value").eq(17).text().trim(),
@@ -98,7 +110,7 @@ const extractGuardianInfo = ($) => {
 };
 
 // Function to extract miscellaneous information
-const extractMiscellaneousInfo = ($) => {
+const extractMiscellaneousInfo = ($: CheerioAPI) => {
   const miscellaneous = {
     academicHonors: $(".element-input-value-otherInfo").eq(0).text().trim(),
     scholarshipDetails: $(".element-input-value-otherInfo").eq(1).text().trim(),
@@ -153,25 +165,22 @@ const extractMiscellaneousInfo = ($) => {
   return miscellaneous;
 };
 
-
-export default async function getProfilePage(client:AxiosInstance) {
-    const response = await client.get(
-        "https://usis.bracu.ac.bd/academia/student/showProfile"
-    );
-    const profilePage = response.data;
-    const $ = load(profilePage);
-    const programInfo = extractProgramInfo($);
-const studentInfo = extractStudentInfo($);
-const educationalInfo = extractEducationalInfo($);
-const guardianInfo = extractGuardianInfo($);
-const miscellaneousInfo = extractMiscellaneousInfo($);
-    return {
-        programInfo,
-        studentInfo,
-        educationalInfo,
-        guardianInfo,
-        miscellaneousInfo,
-
-    };
-    
+export default async function getProfilePage(client: AxiosInstance) {
+  const response = await client.get(
+    "https://usis.bracu.ac.bd/academia/student/showProfile",
+  );
+  const profilePage = response.data;
+  const $ = load(profilePage);
+  const programInfo = extractProgramInfo($);
+  const studentInfo = extractStudentInfo($);
+  const educationalInfo = extractEducationalInfo($);
+  const guardianInfo = extractGuardianInfo($);
+  const miscellaneousInfo = extractMiscellaneousInfo($);
+  return {
+    programInfo,
+    studentInfo,
+    educationalInfo,
+    guardianInfo,
+    miscellaneousInfo,
+  };
 }

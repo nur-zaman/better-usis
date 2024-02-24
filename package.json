@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier . --write"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -34,11 +35,13 @@
     "cheerio": "^1.0.0-rc.12",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "framer-motion": "^11.0.6",
     "lucide-react": "^0.338.0",
     "next": "14.1.0",
     "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
     "react": "^18",
+    "react-day-picker": "^8.10.0",
     "react-dom": "^18",
     "react-hook-form": "^7.50.1",
     "recharts": "^2.12.0",
@@ -49,19 +52,19 @@
     "zustand": "^4.5.1"
   },
   "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/tough-cookie": "^4.0.5",
+    "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
+    "prettier": "3.0.3",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5",
-    "@tailwindcss/aspect-ratio": "^0.4.2",
-    "@types/tough-cookie": "^4.0.5",
-    "@types/uuid": "^9.0.7",
-    "@typescript-eslint/eslint-plugin": "^6.11.0",
-    "prettier": "3.0.3"
+    "typescript": "^5"
   }
 }

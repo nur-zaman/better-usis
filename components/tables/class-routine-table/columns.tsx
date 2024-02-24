@@ -1,8 +1,8 @@
 "user client";
-import { ClassSchedule } from "@/constants/data";
+import { ClassScheduleForCourseDetails } from "@/types/usisTypes";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const columns: ColumnDef<ClassSchedule>[] = [
+export const columns: ColumnDef<ClassScheduleForCourseDetails>[] = [
   {
     accessorKey: "id",
     header: "ID",
