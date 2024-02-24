@@ -5,6 +5,13 @@ import getClient from "@/usis/usisSession";
 import { cookies } from "next/headers";
 
 export const authOptions: NextAuthOptions = {
+
+  events: {
+    signOut: async () => {
+      cookies().delete('pwd');
+      cookies().delete('username');
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
 
   providers: [
@@ -27,6 +34,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         console.log(credentials);
+        // const user = { id: "1", name: "John", email: credentials?.email };
         const userSession = await getClient(credentials?.email, credentials?.password);
         if (userSession) {
           cookies().set({
@@ -45,10 +53,10 @@ export const authOptions: NextAuthOptions = {
       );
           return { id: "", name: "", email: credentials?.email };
         } else {
-
+          // If you return null then an error will be displayed advising the user to check their details.
           return null;
 
-          
+          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },
     }),
