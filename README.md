@@ -18,9 +18,9 @@ Some of the views,
     <th>Advising Planner</th>
   </tr>
   <tr>
-    <td><img src="docs/overview.png" height=250></td>
-    <td><img src="docs/course_details.png" height=250></td>
-    <td><img src="docs/advising_planner.png" height=250></td>
+    <td><img src="docs/overview.png" width=250></td>
+    <td><img src="docs/course_details.png" width=250></td>
+    <td><img src="docs/advising_planner.png" width=250></td>
   </tr>
 </table>
 any many more.
@@ -29,4 +29,4 @@ any many more.
 *This project is a work in progress.*
 
 ### Disclaimer
-This project is not affiliated with BRAC University. It is a personal project, that I'm doing to give back to my university and my juniors.
+This project is not affiliated with BRAC University. It is a personal project, that I'm doing to give back to my university and my juniors. Please Read the [Terms of Service](TOS.md)
