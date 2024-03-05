@@ -29,12 +29,12 @@ export default async function page() {
   // console.log(cookieStore);
   // console.log(email, password);
   if (!client) {
-    throw new Error("Client is undefined");
+    throw new Error("Could not login");
   }
 
   const classRoutineData = await getClassRoutineData(client);
   if (!classRoutineData) {
-    throw new Error("Class Routine Data is undefined");
+    throw new Error("Could not fetch Class Routine Data");
   }
   const classDetails = getOngoingAndUpcomingClasses(classRoutineData);
   const gradesheetData = await getGradeSheetData(client);
