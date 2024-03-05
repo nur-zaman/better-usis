@@ -29,42 +29,26 @@ export default async function page({ searchParams }: paramsProps) {
   const sem: string = searchParams.sem || currentSemester.id;
 
   return (
-    <ScrollArea className="h-full">
-      <div className="grow space-y-4  p-4 md:p-8 pt-6 w-auto static">
-        <BreadCrumb items={breadcrumbItems} />
-        <Tabs defaultValue="Course Time Schedule">
-          <TabsList>
-            <TabsTrigger value="Course Time Schedule">
-              Course Time Schedule
-            </TabsTrigger>
-            <TabsTrigger value="prereq">Prerequisites</TabsTrigger>
-          </TabsList>
-          <TabsContent value="Course Time Schedule" className="space-y-4">
-            {client && (
-              <Suspense fallback={<Loading />}>
-                <CourseDetailsLoader
-                  client={client}
-                  sem={sem}
-                ></CourseDetailsLoader>
-              </Suspense>
-            )}
-            {/* <Suspense fallback={<Loading />}>
-             
-              <UserClient
-                data={classSchedule ? classSchedule : []}
-                currentSemesterName={currentSemester.title}
-                currentSemesterID={currentSemester.id}
-              />
-              <Separator />
-              <DataTable
-                searchKey="course"
-                columns={courseDetailsColumn}
-                data={classSchedule ? classSchedule : []}
-              />
-            </Suspense> */}
-          </TabsContent>
-        </Tabs>
-      </div>
-    </ScrollArea>
+    <div className="grow space-y-4  p-4 md:p-8 pt-6 w-auto static">
+      <BreadCrumb items={breadcrumbItems} />
+      <Tabs defaultValue="Course Time Schedule">
+        <TabsList>
+          <TabsTrigger value="Course Time Schedule">
+            Course Time Schedule
+          </TabsTrigger>
+          <TabsTrigger value="prereq">Prerequisites</TabsTrigger>
+        </TabsList>
+        <TabsContent value="Course Time Schedule" className="space-y-4">
+          {client && (
+            <Suspense fallback={<Loading />}>
+              <CourseDetailsLoader
+                client={client}
+                sem={sem}
+              ></CourseDetailsLoader>
+            </Suspense>
+          )}
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 }
