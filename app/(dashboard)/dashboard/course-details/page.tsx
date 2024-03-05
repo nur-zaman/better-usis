@@ -8,6 +8,7 @@ import { cookies } from "next/headers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import CourseDetailsLoader from "@/components/tables/course-details-table/course-details-loader";
+import UnderConstruction from "@/components/under-construction";
 
 const breadcrumbItems = [
   { title: "Course Details", link: "/dashboard/course-details" },
@@ -45,6 +46,13 @@ export default async function page({ searchParams }: paramsProps) {
                 client={client}
                 sem={sem}
               ></CourseDetailsLoader>
+            </Suspense>
+          )}
+        </TabsContent>
+        <TabsContent value="prereq" className="space-y-4">
+          {client && (
+            <Suspense fallback={<Loading />}>
+              <UnderConstruction />
             </Suspense>
           )}
         </TabsContent>
