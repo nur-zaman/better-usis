@@ -10,11 +10,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LoaderIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-// import GoogleSignInButton from "../github-auth-button";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -38,11 +38,17 @@ export default function UserAuthForm() {
   });
 
   const onSubmit = async (data: UserFormValue) => {
-    signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      callbackUrl: callbackUrl ?? "/dashboard",
-    });
+    try {
+      setLoading(true); // Set loading to true before sign in
+      await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        callbackUrl: callbackUrl ?? "/dashboard",
+      });
+    }
+     finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -90,7 +96,7 @@ export default function UserAuthForm() {
           />
 
           <Button disabled={loading} className="ml-auto w-full" type="submit">
-            Continue With Email
+            {!loading?"Continue With Email":  <LoaderIcon className="animate-spin" />}
           </Button>
         </form>
       </Form>
@@ -98,13 +104,8 @@ export default function UserAuthForm() {
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
         </div>
-        {/* <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div> */}
       </div>
-      {/* <GoogleSignInButton /> */}
+  
     </>
   );
 }
