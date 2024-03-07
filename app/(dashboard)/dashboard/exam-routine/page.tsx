@@ -1,5 +1,10 @@
 import BreadCrumb from "@/components/breadcrumb";
 import ExamRoutineTable from "@/components/tables/exam-routine-table/exam-routine-table";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Better USIS::Exam Routine",
+  description: "Upcoming Exam Routine",
+};
 
 
 const breadcrumbItems = [{ title: "Exam Routine", link: "/dashboard/exam-routine" }];

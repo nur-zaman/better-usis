@@ -6,9 +6,16 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import { cookies } from "next/headers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import CourseDetailsLoader from "@/components/tables/course-details-table/course-details-loader";
 import UnderConstruction from "@/components/under-construction";
+
+
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Better USIS :: Course Details",
+  description: "View details about courses",
+};
 
 const breadcrumbItems = [
   { title: "Course Details", link: "/dashboard/course-details" },

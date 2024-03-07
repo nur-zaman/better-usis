@@ -1,24 +1,20 @@
-import UpcomingEvents from "@/components/upcoming-events";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Suspense } from "react";
 
-import { semesterEvents } from "@/constants/data";
 import Loading from "./loading";
-import { ClassRoutineTable } from "@/components/tables/class-routine-table/class-routine-table";
 import { cookies } from "next/headers";
-import getClassRoutineData, {
-  getOngoingAndUpcomingClasses,
-} from "@/usis/usisClassRoutine";
 import getClient from "@/usis/usisSession";
 import { AxiosInstance } from "axios";
-import OngoingClassCard from "@/components/ongoing-class-card";
-import UpcominClassesCard from "@/components/upcoming-classes";
 import AnalyticsTab from "@/components/tabs/analytics-tab";
 import TabContentSkeleton from "@/components/skeletons/TabContentSkeleton";
 import OverviewTab from "@/components/tabs/overview-tab";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Better USIS :: Dashboard",
+  description: "View your dashboard",
+};
 export default async function page() {
   const cookieStore = cookies();
   const email = cookieStore.get("username")?.value || "";

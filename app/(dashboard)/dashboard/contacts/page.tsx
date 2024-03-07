@@ -1,5 +1,11 @@
 import BreadCrumb from "@/components/breadcrumb";
 import FacultyInfoTable from "@/components/tables/faculty-info-table/faculty-info-table";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Better USIS :: Contacts",
+  description: "List of faculty contacts",
+};
 
 const breadcrumbItems = [{ title: "Contacts", link: "/dashboard/contacts" }];
 
