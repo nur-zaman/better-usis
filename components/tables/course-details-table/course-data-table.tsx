@@ -36,6 +36,7 @@ import {
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
 import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -61,7 +62,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex flex-row flex-wrap flex-grow">
+      <div className="flex flex-row flex-wrap ">
         <Input
           placeholder={`Search ${searchKey}...`}
           value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
@@ -96,9 +97,27 @@ export function DataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+        <div className="space-x-2 pl-2">
+          <Button
+            variant="outline"
+            // size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ArrowLeft />
+          </Button>
+          <Button
+            variant="outline"
+            // size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <ArrowRight />
+          </Button>
+        </div>
       </div>
 
-      <ScrollArea className="rounded-md border h-80vh">
+      <ScrollArea className="rounded-md border h-[55vh] sm:h-[60vh]">
         <Table className="relative">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -145,30 +164,13 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
         <ScrollBar orientation="horizontal" />
+        <ScrollBar orientation="vertical" />
       </ScrollArea>
       <div className="flex items-center justify-end space-x-2 py-4">
         {/* <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div> */}
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
       </div>
     </>
   );

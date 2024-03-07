@@ -52,7 +52,7 @@ export default function NextSemResult({currentCGPA,totalEarnedCredits}: Props) {
   return (
     <Card>
     <CardHeader>
-      <CardTitle className='flex place-content-between'><div>Calculate Probable CGPA of This Semester</div> <div>{CGPAPrediction || "Error in calculating CGPA"}</div> </CardTitle>
+      <CardTitle className='flex place-content-between'><div>Calculate Probable CGPA of This Semester</div> <div>{CGPAPrediction.toFixed(4) || "Error in calculating CGPA"}</div> </CardTitle>
       <CardDescription className='flex justify-end'> <span className=''>Calculated CGPA</span> <Link className='flex self-center text-primary px-2' href={'https://www.bracu.ac.bd/academics/policies-and-procedures'} target='_blank'><ExternalLink size={16} /></Link></CardDescription>
     </CardHeader>
     <CardContent>

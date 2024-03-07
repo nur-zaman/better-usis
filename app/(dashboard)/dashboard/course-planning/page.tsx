@@ -3,6 +3,13 @@ import { parseRoutine } from "@/usis/usisParseAdvisingCourses";
 import { ParsedData } from "@/types/usisTypes";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import BreadCrumb from "@/components/breadcrumb";
+
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Better USIS :: Course Planning",
+  description: "Plan your next advising courses",
+};
 const breadcrumbItems = [
   { title: "Course Planning", link: "/dashboard/course-planning" },
 ];

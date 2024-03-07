@@ -33,6 +33,13 @@ export const navItems: NavItem[] = [
     label: "contacts",
   },
   {
+    title: "Exam Routine",
+    href: "/dashboard/exam-routine",
+    icon: "CalendarCheck",
+    label: "Exam Routine",
+  },
+
+  {
     title: "Profile",
     href: "/dashboard/profile",
     icon: "profile",

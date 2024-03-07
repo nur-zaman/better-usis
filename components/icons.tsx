@@ -32,6 +32,7 @@ import {
   X,
   LogOut,
   BookText,
+  CalendarCheck,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -85,4 +86,5 @@ export const Icons = {
   contact: Contact,
   logout: LogOut,
   book: BookText,
+  CalendarCheck:CalendarCheck
 };
