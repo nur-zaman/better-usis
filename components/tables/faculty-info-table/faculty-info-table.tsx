@@ -8,7 +8,7 @@ type Props = {};
 export default function FacultyInfoTable({}: Props) {
   return (
     <>
-      <DataTable columns={columns} data={facultyData.CSE} />
+      <DataTable columns={columns} data={facultyData.CSE} searchKey="faculty"/>
     </>
   );
 }

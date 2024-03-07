@@ -24,11 +24,13 @@ import { Input } from "./input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  searchKey: string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  searchKey
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -40,15 +42,18 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
+    <div className="flex flex-row space-x-2 place-content-between flex-wrap">
       <Input
-        placeholder={`Search by ${"Faculty"} Name...`}
-        value={(table.getColumn("faculty")?.getFilterValue() as string) ?? ""}
+        placeholder={`Search by ${searchKey} Name...`}
+        value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
         onChange={(event) =>
-          table.getColumn("faculty")?.setFilterValue(event.target.value)
+          table.getColumn(searchKey)?.setFilterValue(event.target.value)
         }
         className="w-full md:max-w-sm"
       />
-      <ScrollArea className="rounded-md border h-[calc(80vh-100px)] ">
+      <DataTablePagination table={table} />
+      </div>
+      <ScrollArea className="rounded-md border h-[calc(80vh-150px)] ">
         <Table className="relative">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -100,7 +105,7 @@ export function DataTable<TData, TValue>({
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
 
-      <DataTablePagination table={table} />
+      
     </>
   );
 }
