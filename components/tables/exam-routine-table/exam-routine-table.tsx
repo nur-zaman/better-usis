@@ -19,7 +19,7 @@ export default async function ExamRoutineTable({}: Props) {
 
   return (
     <>
-    <div className="">{response.data.exam}</div>
+    <div className="flex flex-col gap-1"><span>{response.data.exam}</span><span className=" text-xs">Please cross-check your schedule beforehand.</span></div>
       <DataTable columns={columns} data={parsedData} searchKey="course"/>
     </>
   );
