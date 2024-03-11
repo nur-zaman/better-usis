@@ -1,18 +1,13 @@
 "use client";
 
 import {
-  CaretSortIcon,
   ChevronDownIcon,
-  DotsHorizontalIcon,
 } from "@radix-ui/react-icons";
 
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -117,7 +112,7 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
 
-      <ScrollArea className="rounded-md border h-[55vh] sm:h-[60vh]">
+      <ScrollArea className="rounded-md border h-[55vh] sm:h-[60vh] lg:h-[53vh]">
         <Table className="relative">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
