@@ -113,3 +113,12 @@ export  type GradeSheetCourseInfo = {
     code:string;
     name:string;
   }
+
+  export interface Event {
+    title: string;
+    link: string;
+    startDate: string;
+    endDate: string;
+    details: string;
+    date: string;
+}
