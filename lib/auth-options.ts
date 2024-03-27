@@ -33,7 +33,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "password", type: "password" },
       },
       async authorize(credentials, req) {
-        console.log(credentials);
+        // console.log(credentials);
         // const user = { id: "1", name: "John", email: credentials?.email };
         const userSession = await getClient(credentials?.email, credentials?.password);
         if (userSession) {
