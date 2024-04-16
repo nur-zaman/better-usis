@@ -6,3 +6,5 @@ export const gradeSheetEndpoint: string =
   "https://usis.bracu.ac.bd/academia/studentCourse/loadPreviousResultByStudent";
 export const courseSequenceEndpoint: string =
   "https://usis.bracu.ac.bd/academia/studentCourse/showStudentCourseSequence";
+export const studentProfileEndpoint: string =
+  "https://usis.bracu.ac.bd/academia/student/showProfile";
