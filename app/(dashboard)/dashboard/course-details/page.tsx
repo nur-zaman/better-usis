@@ -1,6 +1,5 @@
 import BreadCrumb from "@/components/breadcrumb";
-import getClient from "../../../../usis/usisSession";
-import { currentSemester } from "@/constants/globalConfigs";
+
 import { AxiosInstance } from "axios";
 import { Suspense } from "react";
 import Loading from "./loading";
@@ -9,8 +8,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CourseDetailsLoader from "@/components/tables/course-details-table/course-details-loader";
 import UnderConstruction from "@/components/under-construction";
 
-
 import { Metadata } from "next";
+import { getCurrentSemesterFromAPI } from "@/usis/usisUtils";
+import ErrorComponent from "@/components/ErrorComponent";
+import { redirect } from "next/navigation";
+import getClient from "@/usis/usisSession";
+import getPrereqCourseInfo from "@/usis/usisPreRequisiteCourse";
+import { PreReqTable } from "@/components/tables/preReq-course-table/preReq-course-table";
 
 export const metadata: Metadata = {
   title: "Better USIS :: Course Details",
@@ -34,7 +38,20 @@ export default async function page({ searchParams }: paramsProps) {
 
   const client: AxiosInstance | undefined = await getClient(email, password);
 
-  const sem: string = searchParams.sem || currentSemester.id;
+  if (!client) {
+    redirect("/");
+  }
+
+  const currentSemesterFromApi = await getCurrentSemesterFromAPI(client);
+
+  const sem: string | undefined =
+    searchParams.sem || currentSemesterFromApi?.id.toString();
+
+  if (!sem || !currentSemesterFromApi) {
+    return <ErrorComponent message="Semester not provided" />;
+  }
+
+  const preReqData = await getPrereqCourseInfo(client);
 
   return (
     <div className="grow space-y-4  p-4 md:p-8 pt-6 w-auto static">
@@ -47,21 +64,23 @@ export default async function page({ searchParams }: paramsProps) {
           <TabsTrigger value="prereq">Prerequisites</TabsTrigger>
         </TabsList>
         <TabsContent value="Course Time Schedule" className="space-y-4">
-          {client && (
+          {
             <Suspense fallback={<Loading />}>
               <CourseDetailsLoader
                 client={client}
                 sem={sem}
+                currentSemesterFromApi={currentSemesterFromApi}
               ></CourseDetailsLoader>
             </Suspense>
-          )}
+          }
         </TabsContent>
         <TabsContent value="prereq" className="space-y-4">
-          {client && (
+          {
             <Suspense fallback={<Loading />}>
-              <UnderConstruction />
+              {/* <UnderConstruction /> */}
+              <PreReqTable data={preReqData} />
             </Suspense>
-          )}
+          }
         </TabsContent>
       </Tabs>
     </div>
