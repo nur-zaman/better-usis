@@ -70,12 +70,10 @@ export async function getCurrentSemesterFromAPI(client: AxiosInstance) {
   // Dynamically calculate the current year
   const currentYear = new Date().getFullYear();
   const url = `http://usis.bracu.ac.bd/academia/academiaSession/getAllSessionByYear?year=${currentYear}`;
-  console.log(url);
   await client.get("https://usis.bracu.ac.bd/academia/");
   const response = await client.get<AcademicSession[]>(url);
   // const response = await client.get<ClassScheduleResponse>(ClassScheduleURL);
   const semesters = response.data;
-  console.log(semesters);
 
   if (!semesters || semesters.length === 0) {
     console.log("No semesters found for the current year.");
@@ -92,8 +90,6 @@ export async function getCurrentSemesterFromAPI(client: AxiosInstance) {
   });
 
   if (currentSemester) {
-    console.log(`The current semester is: ${currentSemester.title}`);
-    console.log(`The current semester id is: ${currentSemester.id}`);
     return currentSemester;
   } else {
     console.log("No current semester found.");
