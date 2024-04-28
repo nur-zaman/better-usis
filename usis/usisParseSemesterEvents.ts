@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { load } from 'cheerio';
-import { Event } from '@/types/usisTypes';
-import { semesterEventEndpoint } from './usisApiRoutes';
+import axios from "axios";
+import { load } from "cheerio";
+import { Event } from "@/types/usisTypes";
+import { semesterEventEndpoint } from "./usisApiRoutes";
 
 async function parseSemesterEvent(): Promise<Event[]> {
   const response = await axios.get(semesterEventEndpoint);
@@ -10,21 +10,19 @@ async function parseSemesterEvent(): Promise<Event[]> {
 
   const events: Event[] = [];
 
-  $('event').each((index, element) => {
+  $("event").each((index, element) => {
     const event: Event = {
-      title: $(element).find('title').text().trim(),
-      link: $(element).find('link').text().trim(),
-      startDate: $(element).find('start-date').text().trim(),
-      endDate: $(element).find('end-date').text().trim(),
-      details: $(element).find('details').text().trim(),
-      date: $(element).find('date').text().trim(),
+      title: $(element).find("title").text().trim(),
+      link: $(element).find("link").text().trim(),
+      from_date: $(element).find("start-date").text().trim(),
+      to_date: $(element).find("end-date").text().trim(),
+      details: $(element).find("details").text().trim(),
+      date: $(element).find("date").text().trim(),
     };
     events.push(event);
   });
 
-  console.log(events);
   return events;
 }
 
 export { parseSemesterEvent };
-

@@ -31,15 +31,15 @@ export type MainNavItem = NavItemWithOptionalChildren;
 
 export type SidebarNavItem = NavItemWithChildren;
 
-export type Event = {
-  from_date: string;
-  to_date: string;
-  day: string;
-  title: string;
-};
+// export type Event = {
+//   from_date: string;
+//   to_date: string;
+//   day: string;
+//   title: string;
+// };
 
-export type SemesterEvents<T extends string> = {
-  [key in T]: {
-    events: Event[];
-  };
-};
+// export type SemesterEvents<T extends string> = {
+//   [key in T]: {
+//     events: Event[];
+//   };
+// };
