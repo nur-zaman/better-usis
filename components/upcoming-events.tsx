@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import { Event } from "@/types";
+import { Event } from "@/types/usisTypes";
 
 // type Event = {
 //   from_date: string;
@@ -48,7 +48,7 @@ function UpcomingEvents({ events }: UpcomingEventsProps) {
               {`${event.from_date} - ${event.to_date}`}
             </p>
           </div>
-          <div className="ml-auto font-medium">{event.day}</div>
+          {/* <div className="ml-auto font-medium">{event.day}</div> */}
         </div>
       ))}
     </div>

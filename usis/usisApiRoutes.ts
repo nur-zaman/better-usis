@@ -8,3 +8,5 @@ export const courseSequenceEndpoint: string =
   "https://usis.bracu.ac.bd/academia/studentCourse/showStudentCourseSequence";
 export const studentProfileEndpoint: string =
   "https://usis.bracu.ac.bd/academia/student/showProfile";
+export const semesterEventEndpoint: string =
+  "https://www.bracu.ac.bd/academic/spring/2023/rss.xml";
