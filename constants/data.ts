@@ -1,4 +1,4 @@
-import { NavItem, SidebarNavItem, SemesterEvents } from "@/types";
+import { NavItem, SidebarNavItem } from "@/types";
 
 export const navItems: NavItem[] = [
   {
