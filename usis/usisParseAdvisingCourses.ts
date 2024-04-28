@@ -1,13 +1,12 @@
 import routine from "@/components/tables/course-planning-table/data";
 import { load } from "cheerio";
-import axios from 'axios';
+import axios from "axios";
 import { advisingCoursesNoLogin } from "./usisApiRoutes";
-import { ParsedData, Course} from "@/types/usisTypes";
-
+import { ParsedData, Course } from "@/types/usisTypes";
 
 async function parseRoutine(): Promise<ParsedData> {
-  const routine = await axios.get(advisingCoursesNoLogin)
-  const html: string = routine.data; 
+  const routine = await axios.get(advisingCoursesNoLogin);
+  const html: string = routine.data;
 
   const $ = load(html);
 
@@ -36,11 +35,9 @@ async function parseRoutine(): Promise<ParsedData> {
   });
 
   function parseDayTimeRoom(dayTimeRoomString: string) {
-
     let parts = dayTimeRoomString.split(/\)/);
 
     parts = parts.filter((part) => part.trim() !== "");
-
 
     const dayRegex = /[A-Za-z]{2}/;
     const timeRegex = /\d{2}:\d{2} [APMapm]{2}-\d{2}:\d{2} [APMapm]{2}/;
@@ -53,7 +50,6 @@ async function parseRoutine(): Promise<ParsedData> {
       const roomNumber = part.match(roomRegex) ? part.match(roomRegex)![0] : "";
       return { day, time, roomNumber };
     });
-
 
     return extractedInfo;
   }
