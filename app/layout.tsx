@@ -5,12 +5,30 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { getServerSession } from "next-auth";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Better USIS",
-  description: "The better version of USIS that my Uni didn't make for me.",
+  description: "The better version of USIS",
+  twitter: {
+    site: "https://betterusis.vercel.app",
+    title: "Better USIS",
+    description:
+      "The better version of BRAC University's USIS (Student Portal).",
+    images: "/opengraph-image.png",
+  },
+
+  openGraph: {
+    type: "website",
+    url: "https://betterusis.vercel.app",
+    title: "Better USIS",
+    description:
+      "The better version of BRAC University's USIS (Student Portal).",
+    images: "/opengraph-image.png",
+  },
 };
 
 export default async function RootLayout({
@@ -25,6 +43,8 @@ export default async function RootLayout({
         <Providers session={session}>
           <Toaster />
           {children}
+          <Analytics />
+          <SpeedInsights />
         </Providers>
         <Script
           async

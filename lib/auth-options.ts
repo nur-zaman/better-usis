@@ -5,11 +5,10 @@ import getClient from "@/usis/usisSession";
 import { cookies } from "next/headers";
 
 export const authOptions: NextAuthOptions = {
-
   events: {
     signOut: async () => {
-      cookies().delete('pwd');
-      cookies().delete('username');
+      cookies().delete("pwd");
+      cookies().delete("username");
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
@@ -35,22 +34,23 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         console.log(credentials);
         // const user = { id: "1", name: "John", email: credentials?.email };
-        const userSession = await getClient(credentials?.email, credentials?.password);
+        const userSession = await getClient(
+          credentials?.email,
+          credentials?.password,
+        );
         if (userSession) {
           cookies().set({
             name: "username",
-            value: credentials? credentials.email : '',
+            value: credentials ? credentials.email : "",
             maxAge: 2 * 24 * 60 * 60,
             secure: true,
-        },
-        );
-        cookies().set({
-          name: "pwd",
-          value: credentials? credentials.password : '',
-          maxAge: 2 * 24 * 60 * 60,
-          secure: true,
-      },
-      );
+          });
+          cookies().set({
+            name: "pwd",
+            value: credentials ? credentials.password : "",
+            maxAge: 2 * 24 * 60 * 60,
+            secure: true,
+          });
           return { id: "", name: "", email: credentials?.email };
         } else {
           // If you return null then an error will be displayed advising the user to check their details.

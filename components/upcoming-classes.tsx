@@ -28,7 +28,7 @@ export default function UpcominClassesCard({ upcomingClasses }: Props) {
             </CardTitle>
             {/* <CardDescription>Upcoming Classes</CardDescription> */}
 
-            <div className="h-4 w-4 text-muted-foreground">
+            <div className="text-muted-foreground">
               <GraduationCap size={16} strokeWidth={1} />
               {upcomingClass.faculty}
             </div>

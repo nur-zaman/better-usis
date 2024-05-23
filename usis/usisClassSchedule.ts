@@ -32,7 +32,7 @@ interface ClassScheduleRow {
     string, // You need to replace these nulls with the actual data types
   ];
   class: string;
-  id: string; // You need to replace this null with the actual data type
+  id: string;
 }
 
 interface TimeSlotDay {

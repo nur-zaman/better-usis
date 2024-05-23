@@ -1,24 +1,21 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/tables/course-details-table/course-data-table";
 import { Heading } from "@/components/ui/heading";
-import { Separator } from "@/components/ui/separator";
+
 import { ClassScheduleForCourseDetails } from "@/types/usisTypes";
 // import { Plus } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { columns } from "./columns";
+
 import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDownIcon } from "lucide-react";
-// import { DropdownMenuRadioItem } from "@/components/ui/dropdown-menu";
 
 import { getSemesterName } from "@/usis/usisUtils";
 
@@ -68,8 +65,6 @@ export const UserClient: React.FC<CourseDetailsProps> = ({
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [semesterID]);
-
-  console.log(getSemesterName(627123));
 
   return (
     <>

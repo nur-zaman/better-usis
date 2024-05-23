@@ -1,5 +1,6 @@
 import { CheerioAPI, load } from "cheerio";
 import { AxiosInstance } from "axios";
+import { studentProfileEndpoint } from "./usisApiRoutes";
 
 // Function to extract program information
 const extractProgramInfo = ($: CheerioAPI) => {
@@ -166,9 +167,8 @@ const extractMiscellaneousInfo = ($: CheerioAPI) => {
 };
 
 export default async function getProfilePage(client: AxiosInstance) {
-  const response = await client.get(
-    "https://usis.bracu.ac.bd/academia/student/showProfile",
-  );
+  await client.get("https://usis.bracu.ac.bd/academia/");
+  const response = await client.get(studentProfileEndpoint);
   const profilePage = response.data;
   const $ = load(profilePage);
   const programInfo = extractProgramInfo($);
@@ -176,6 +176,7 @@ export default async function getProfilePage(client: AxiosInstance) {
   const educationalInfo = extractEducationalInfo($);
   const guardianInfo = extractGuardianInfo($);
   const miscellaneousInfo = extractMiscellaneousInfo($);
+  console.log(programInfo);
   return {
     programInfo,
     studentInfo,

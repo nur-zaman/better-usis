@@ -5,6 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Github, School } from "lucide-react";
 import { Meteors } from "@/components/ui/meteors";
+import ThemeToggle from "@/components/layout/ThemeToggle/theme-toggle";
 
 export const metadata: Metadata = {
   title: "Better USIS",
@@ -50,9 +51,13 @@ export default function AuthenticationPage() {
         </div>
         <Meteors number={50} />
       </div>
+      
       <div className="p-4 lg:p-8 h-full flex items-center">
+      
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+        
           <div className="flex flex-col space-y-2 text-center">
+          
             <h1 className="text-5xl font-semibold pb-15 flex justify-center">
               <School size={48} />
             </h1>
@@ -74,6 +79,8 @@ export default function AuthenticationPage() {
             </Link>
             .
           </p>
+          <div className="flex justify-center"><ThemeToggle /></div>
+          
         </div>
       </div>
     </div>

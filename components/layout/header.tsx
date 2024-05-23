@@ -4,6 +4,7 @@ import { MobileSidebar } from "./mobile-sidebar";
 import Link from "next/link";
 import { School } from "lucide-react";
 import LogoutButton from "../logout-button";
+import ReportIssuesButton from "@/components/report-issues-button";
 
 export default function Header() {
   return (
@@ -20,6 +21,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-2">
+          <ReportIssuesButton />
           <ThemeToggle />
           <LogoutButton />
         </div>
