@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "./ui/separator";
 import { School, GraduationCap } from "lucide-react";
 import { convertedTimeSlot } from "@/usis/usisClassRoutine";

@@ -16,10 +16,8 @@ import CourseListTable from "./courseListTable";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import { Plus } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Card } from "@/components/ui/card";
 type Props = {
   data: ParsedData;
 };

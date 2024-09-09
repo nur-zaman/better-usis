@@ -6,7 +6,6 @@ import Loading from "./loading";
 import { cookies } from "next/headers";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CourseDetailsLoader from "@/components/tables/course-details-table/course-details-loader";
-import UnderConstruction from "@/components/under-construction";
 
 import { Metadata } from "next";
 import { getCurrentSemesterFromAPI } from "@/usis/usisUtils";
