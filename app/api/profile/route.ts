@@ -1,17 +1,37 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import getProfilePage from "@/usis/usisStudentProfile";
-import axios from "axios";
+import {getGradeSheetData} from "@/usis/usisGradeSheet";
+import getClient from "@/usis/usisSession";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const client = axios.create({
-      withCredentials: true,
-    });
+    const email = req.cookies.get("username")?.value || "";
+    const password = req.cookies.get("pwd")?.value || "";
+
+    if (!email || !password) {
+      throw new Error("User is not authenticated");
+    }
+
+    const client = await getClient(email, password);
+
+    if (!client) {
+      throw new Error("Failed to authenticate with USIS");
+    }
 
     const profileData = await getProfilePage(client);
-    console.log("Profile Data:", profileData);
 
-    return NextResponse.json(profileData);
+    const gradeSheetData = await getGradeSheetData(client);
+
+    let cgpa = null;
+    if (gradeSheetData) {
+      const lastSemester =
+        gradeSheetData.semesters[gradeSheetData.semesters.length - 1];
+      if (lastSemester && lastSemester.overallResult) {
+        cgpa = lastSemester.overallResult.CGPA;
+      }
+    }
+
+    return NextResponse.json({ ...profileData, cgpa });
   } catch (error) {
     console.error("Error fetching profile data:", error);
     return NextResponse.json(
@@ -20,5 +40,3 @@ export async function GET() {
     );
   }
 }
-
-

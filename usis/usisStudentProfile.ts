@@ -5,11 +5,10 @@ import { studentProfileEndpoint } from "./usisApiRoutes";
 // Function to extract program information
 const extractProgramInfo = ($: CheerioAPI) => {
   const program = {
-    programName: $(".element-input-value-program font.choice-color")
-      .text()
-      .trim(),
+    programName: $(".element-input-value-program").first().text().trim(),
     studentType: $(".element-input-value-program").eq(1).text().trim(),
   };
+
   return program;
 };
 
@@ -34,6 +33,7 @@ const extractStudentInfo = ($: CheerioAPI) => {
     passportNo: $(".element-input-value").eq(13).text().trim(),
     district: $(".element-input-value").eq(14).text().trim(),
     country: $(".element-input-value").eq(15).text().trim(),
+    photoUrl: $("#studentPhotoId").attr("src") || "",
   };
   return student;
 };
@@ -85,30 +85,46 @@ const extractEducationalInfo = ($: CheerioAPI): ExamDetails[] => {
 };
 
 // Function to extract guardian information
+
 const extractGuardianInfo = ($: CheerioAPI) => {
+  $(".element-input-value").each((index, element) => {
+    const label =
+      $(element).prev().text().trim() ||
+      $(element).parent().find("label").text().trim() ||
+      `Unknown Field at Index ${index}`;
+    console.log(`Index ${index}: ${label} - ${$(element).text().trim()}`);
+  });
+
   const guardian = {
     fatherName: $(".element-input-value").eq(16).text().trim(),
     fatherOccupation: $(".element-input-value").eq(17).text().trim(),
     fatherEmail: $(".element-input-value").eq(18).text().trim(),
     fatherHomePhone: $(".element-input-value").eq(19).text().trim(),
     fatherMobile: $(".element-input-value").eq(20).text().trim(),
-    fatherOfficePhone: $(".element-input-value").eq(21).text().trim(),
-    motherName: $(".element-input-value").eq(22).text().trim(),
-    motherOccupation: $(".element-input-value").eq(23).text().trim(),
-    motherEmail: $(".element-input-value").eq(24).text().trim(),
-    motherHomePhone: $(".element-input-value").eq(25).text().trim(),
-    motherMobile: $(".element-input-value").eq(26).text().trim(),
-    localGuardian: $(".element-input-value").eq(27).text().trim(),
-    localGuardianName: $(".element-input-value").eq(28).text().trim(),
-    localGuardianRelation: $(".element-input-value").eq(29).text().trim(),
-    localGuardianPhone: $(".element-input-value").eq(30).text().trim(),
-    localGuardianAddress: $(".element-input-value").eq(31).text().trim(),
-    earningMember: $(".element-input-value").eq(32).text().trim(),
-    monthlyIncome: $(".element-input-value").eq(33).text().trim(),
-    currency: $(".element-input-value").eq(34).text().trim(),
+    fatherOfficePhone: $(".element-input-value").eq(22).text().trim(), // Father's Office Phone No. adjusted
+
+    // Correct indexes for mother's details
+    motherName: $(".element-input-value").eq(23).text().trim(),
+    motherOccupation: $(".element-input-value").eq(24).text().trim(),
+    motherEmail: $(".element-input-value").eq(27).text().trim(), // Mother's Email adjusted
+    motherHomePhone: $(".element-input-value").eq(28).text().trim(), // Mother's Home Phone adjusted
+    motherMobile: $(".element-input-value").eq(30).text().trim(), // Mother's Mobile No. correctly placed at eq(30)
+
+    // Adjusted local guardian fields
+    localGuardian: $(".element-input-value").eq(31).text().trim(),
+    localGuardianName: $(".element-input-value").eq(32).text().trim(),
+    localGuardianRelation: $(".element-input-value").eq(33).text().trim(), // Relation with Local Guardian
+    localGuardianPhone: $(".element-input-value").eq(34).text().trim(), // Local Guardian Phone No.
+    localGuardianAddress: $(".element-input-value").eq(35).text().trim(), // Local Guardian Mailing Address
+
+    earningMember: $(".element-input-value").eq(33).text().trim(),
+    monthlyIncome: $(".element-input-value").eq(34).text().trim(),
+    currency: $(".element-input-value").eq(35).text().trim(),
   };
+
   return guardian;
 };
+
 
 // Function to extract miscellaneous information
 const extractMiscellaneousInfo = ($: CheerioAPI) => {

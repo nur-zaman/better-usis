@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { User } from "lucide-react";
@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/table";
 import { TabsContent, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Image from "next/image";
-import { getGradeSheetData } from "@/usis/usisGradeSheet";
-import axios from "axios"; 
 
 interface Course {
   courseCode: string;
@@ -27,6 +25,7 @@ interface Course {
 }
 
 interface ProfileData {
+  cgpa?: number;
   studentInfo: {
     studentID: string;
     fullName: string;
@@ -61,29 +60,17 @@ interface ProfileData {
 export default function StudentProfile() {
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [cgpa, setCgpa] = useState<number | null>(null); // Add a state for CGPA
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-
-        const res = await fetch("/api/profile");
+        const res = await fetch("/api/profile", { credentials: "include" });
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
         const data = await res.json();
         console.log("Fetched Profile Data:", data);
         setProfileData(data);
-
-        const client = axios.create({
-          withCredentials: true,
-        });
-
-        const gradeSheetData = await getGradeSheetData(client);
-        if (gradeSheetData) {
-          const currentCGPA =
-            gradeSheetData.semesters[gradeSheetData.semesters.length - 1]
-              .overallResult.CGPA;
-          setCgpa(currentCGPA);
-        }
-
         setLoading(false);
       } catch (error) {
         console.error("Error fetching profile data:", error);
@@ -102,7 +89,7 @@ export default function StudentProfile() {
     return <p>Profile data not available.</p>;
   }
 
-  const { studentInfo, programInfo, educationalInfo, guardianInfo } =
+  const { studentInfo, programInfo, educationalInfo, guardianInfo, cgpa } =
     profileData;
 
   return (
@@ -112,7 +99,7 @@ export default function StudentProfile() {
           <h1 className="text-2xl font-bold">Student Profile</h1>
         </header>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6">
           <Card className="md:col-span-2">
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
@@ -149,17 +136,18 @@ export default function StudentProfile() {
             </CardContent>
           </Card>
 
-          <Card>
+          {/* <Card>
             <CardContent className="flex flex-col items-center justify-center h-full">
               <div className="w-32 h-32 rounded-full bg-muted flex items-center justify-center mt-4 mb-4">
                 {studentInfo.photoUrl ? (
                   <Image
                     className="rounded-full"
-                    src={studentInfo.photoUrl}
+                    src={`/api/profile/photo?url=${encodeURIComponent(
+                      studentInfo.photoUrl,
+                    )}`}
                     alt={`${studentInfo.fullName} profile`}
                     width={128}
                     height={128}
-                    layout="intrinsic"
                   />
                 ) : (
                   <User className="w-20 h-20" />
@@ -170,7 +158,7 @@ export default function StudentProfile() {
                 Student ID: {studentInfo.studentID}
               </p>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
 
         <Card>
@@ -183,7 +171,7 @@ export default function StudentProfile() {
             </p>
             <p>
               <strong>Cumulative GPA (CGPA):</strong>{" "}
-              {cgpa !== null ? cgpa : "CGPA not available"} {/* Display CGPA */}
+              {cgpa !== null ? cgpa : "CGPA not available"}
             </p>
           </CardContent>
         </Card>
