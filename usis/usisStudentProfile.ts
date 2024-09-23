@@ -101,22 +101,17 @@ const extractGuardianInfo = ($: CheerioAPI) => {
     fatherEmail: $(".element-input-value").eq(18).text().trim(),
     fatherHomePhone: $(".element-input-value").eq(19).text().trim(),
     fatherMobile: $(".element-input-value").eq(20).text().trim(),
-    fatherOfficePhone: $(".element-input-value").eq(22).text().trim(), // Father's Office Phone No. adjusted
-
-    // Correct indexes for mother's details
+    fatherOfficePhone: $(".element-input-value").eq(22).text().trim(),
     motherName: $(".element-input-value").eq(23).text().trim(),
     motherOccupation: $(".element-input-value").eq(24).text().trim(),
-    motherEmail: $(".element-input-value").eq(27).text().trim(), // Mother's Email adjusted
-    motherHomePhone: $(".element-input-value").eq(28).text().trim(), // Mother's Home Phone adjusted
-    motherMobile: $(".element-input-value").eq(30).text().trim(), // Mother's Mobile No. correctly placed at eq(30)
-
-    // Adjusted local guardian fields
+    motherEmail: $(".element-input-value").eq(27).text().trim(),
+    motherHomePhone: $(".element-input-value").eq(28).text().trim(),
+    motherMobile: $(".element-input-value").eq(30).text().trim(),
     localGuardian: $(".element-input-value").eq(31).text().trim(),
     localGuardianName: $(".element-input-value").eq(32).text().trim(),
-    localGuardianRelation: $(".element-input-value").eq(33).text().trim(), // Relation with Local Guardian
-    localGuardianPhone: $(".element-input-value").eq(34).text().trim(), // Local Guardian Phone No.
-    localGuardianAddress: $(".element-input-value").eq(35).text().trim(), // Local Guardian Mailing Address
-
+    localGuardianRelation: $(".element-input-value").eq(33).text().trim(),
+    localGuardianPhone: $(".element-input-value").eq(34).text().trim(),
+    localGuardianAddress: $(".element-input-value").eq(35).text().trim(),
     earningMember: $(".element-input-value").eq(33).text().trim(),
     monthlyIncome: $(".element-input-value").eq(34).text().trim(),
     currency: $(".element-input-value").eq(35).text().trim(),
