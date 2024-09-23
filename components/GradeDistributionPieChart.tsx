@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  PieChart,
-  Pie,
-  Sector,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
-import { GradeSheetParsedData, GradeSheetCourseInfo } from "@/types/usisTypes";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { GradeSheetParsedData } from "@/types/usisTypes";
 
 const COLORS = ["#2c2c2c80"]; // High-contrast green palette
 

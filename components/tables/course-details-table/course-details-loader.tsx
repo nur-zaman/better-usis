@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { UserClient } from "./client";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "./course-data-table";

@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { GraduationCap, School } from "lucide-react";
 
 type Props = {

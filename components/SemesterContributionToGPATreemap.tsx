@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Treemap,
-  ResponsiveContainer,
-  Tooltip,
-  Label,
-  LabelList,
-} from "recharts";
+import { Treemap, ResponsiveContainer, Tooltip, LabelList } from "recharts";
 import { GradeSheetParsedData } from "@/types/usisTypes";
 
 interface CustomTooltipContentProps {
