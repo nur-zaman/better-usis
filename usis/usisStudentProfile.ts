@@ -1,6 +1,16 @@
 import { CheerioAPI, load } from "cheerio";
 import { AxiosInstance } from "axios";
-import { studentProfileEndpoint } from "./usisApiRoutes";
+import { studentProfileEndpoint, advisedCourses } from "./usisApiRoutes";
+
+interface AdvisedCourse {
+  courseCode: string;
+  courseTitle: string;
+  section: string;
+  courseInstructor: string;
+  creditTaken: string;
+  courseCredit: string;
+  seat: string;
+}
 
 // Function to extract program information
 const extractProgramInfo = ($: CheerioAPI) => {
@@ -10,6 +20,54 @@ const extractProgramInfo = ($: CheerioAPI) => {
   };
 
   return program;
+};
+
+// Function to extract advised courses
+const extractAdvisedCourses = ($: CheerioAPI): AdvisedCourse[] => {
+  const courses: AdvisedCourse[] = [];
+
+  $('table tr').slice(1).each((index, element) => {
+    const tds = $(element).find('td');
+
+    if (tds.length >= 7) {
+      const courseCode = tds.eq(0).text().trim();
+      const courseTitle = tds.eq(1).text().trim();
+      const section = tds.eq(2).text().trim();
+      const courseInstructor = tds.eq(3).text().trim();
+      const creditTaken = tds.eq(4).text().trim();
+      const courseCredit = tds.eq(5).text().trim();
+      const seat = tds.eq(6).text().trim();
+
+      const course: AdvisedCourse = {
+        courseCode,
+        courseTitle,
+        section,
+        courseInstructor,
+        creditTaken,
+        courseCredit,
+        seat,
+      };
+      courses.push(course);
+    } else {
+      console.warn(`Row ${index + 1} does not have enough cells.`);
+    }
+  });
+
+  return courses;
+};
+
+// Function to fetch advised courses from the endpoint
+const fetchAdvisedCourses = async (client: AxiosInstance): Promise<AdvisedCourse[]> => {
+  try {
+    const response = await client.get(advisedCourses);
+    const advisedCoursesPage = response.data;
+    const $ = load(advisedCoursesPage);
+    const advisedCoursesList = extractAdvisedCourses($);
+    return advisedCoursesList;
+  } catch (error) {
+    console.error("Error fetching advised courses:", error);
+    return [];
+  }
 };
 
 // Function to extract student information
@@ -112,9 +170,9 @@ const extractGuardianInfo = ($: CheerioAPI) => {
     localGuardianRelation: $(".element-input-value").eq(33).text().trim(),
     localGuardianPhone: $(".element-input-value").eq(34).text().trim(),
     localGuardianAddress: $(".element-input-value").eq(35).text().trim(),
-    earningMember: $(".element-input-value").eq(33).text().trim(),
-    monthlyIncome: $(".element-input-value").eq(34).text().trim(),
-    currency: $(".element-input-value").eq(35).text().trim(),
+    earningMember: $(".element-input-value").eq(36).text().trim(),
+    monthlyIncome: $(".element-input-value").eq(37).text().trim(),
+    currency: $(".element-input-value").eq(38).text().trim(),
   };
 
   return guardian;
@@ -187,6 +245,8 @@ export default async function getProfilePage(client: AxiosInstance) {
   const educationalInfo = extractEducationalInfo($);
   const guardianInfo = extractGuardianInfo($);
   const miscellaneousInfo = extractMiscellaneousInfo($);
+  const advisedCoursesList = await fetchAdvisedCourses(client);
+  console.log("Advised Courses List:", advisedCoursesList);
   console.log(programInfo);
   return {
     programInfo,
@@ -194,5 +254,6 @@ export default async function getProfilePage(client: AxiosInstance) {
     educationalInfo,
     guardianInfo,
     miscellaneousInfo,
+    advisedCoursesList,
   };
 }

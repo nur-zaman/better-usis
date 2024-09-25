@@ -1,8 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { User } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -11,21 +8,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TabsContent, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Image from "next/image";
 
-interface Course {
+interface AdvisedCourse {
   courseCode: string;
   courseTitle: string;
   section: string;
-  faculty: string;
-  credit: number;
-  totalSeat: number;
-  seatRemaining: number;
+  courseInstructor: string;
+  creditTaken: string;
+  courseCredit: string;
+  seat: string;
 }
 
 interface ProfileData {
-  cgpa?: number;
+  cgpa?: number | null;
   studentInfo: {
     studentID: string;
     fullName: string;
@@ -41,7 +38,6 @@ interface ProfileData {
     programName: string;
     studentType: string;
   };
-  educationalInfo: Course[];
   guardianInfo: {
     fatherName: string;
     fatherOccupation: string;
@@ -55,41 +51,15 @@ interface ProfileData {
     localGuardianPhone: string;
     localGuardianAddress: string;
   };
+  advisedCoursesList: AdvisedCourse[];
 }
 
-export default function StudentProfile() {
-  const [profileData, setProfileData] = useState<ProfileData | null>(null);
-  const [loading, setLoading] = useState(true);
+interface StudentProfileProps {
+  profileData: ProfileData;
+}
 
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const res = await fetch("/api/profile", { credentials: "include" });
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await res.json();
-        console.log("Fetched Profile Data:", data);
-        setProfileData(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchProfileData();
-  }, []);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!profileData) {
-    return <p>Profile data not available.</p>;
-  }
-
-  const { studentInfo, programInfo, educationalInfo, guardianInfo, cgpa } =
+export default function StudentProfile({ profileData }: StudentProfileProps) {
+  const { studentInfo, programInfo, guardianInfo, advisedCoursesList, cgpa } =
     profileData;
 
   return (
@@ -135,30 +105,6 @@ export default function StudentProfile() {
               </div>
             </CardContent>
           </Card>
-
-          {/* <Card>
-            <CardContent className="flex flex-col items-center justify-center h-full">
-              <div className="w-32 h-32 rounded-full bg-muted flex items-center justify-center mt-4 mb-4">
-                {studentInfo.photoUrl ? (
-                  <Image
-                    className="rounded-full"
-                    src={`/api/profile/photo?url=${encodeURIComponent(
-                      studentInfo.photoUrl,
-                    )}`}
-                    alt={`${studentInfo.fullName} profile`}
-                    width={128}
-                    height={128}
-                  />
-                ) : (
-                  <User className="w-20 h-20" />
-                )}
-              </div>
-              <h2 className="text-xl font-semibold">{studentInfo.fullName}</h2>
-              <p className="text-muted-foreground">
-                Student ID: {studentInfo.studentID}
-              </p>
-            </CardContent>
-          </Card> */}
         </div>
 
         <Card>
@@ -194,17 +140,19 @@ export default function StudentProfile() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {educationalInfo.map((course: Course, index: number) => (
-                  <TableRow key={index}>
-                    <TableCell>{course.courseCode}</TableCell>
-                    <TableCell>{course.courseTitle}</TableCell>
-                    <TableCell>{course.section}</TableCell>
-                    <TableCell>{course.faculty}</TableCell>
-                    <TableCell>{course.credit}</TableCell>
-                    <TableCell>{course.credit}</TableCell>
-                    <TableCell>{course.totalSeat}</TableCell>
-                  </TableRow>
-                ))}
+                {advisedCoursesList.map(
+                  (course: AdvisedCourse, index: number) => (
+                    <TableRow key={index}>
+                      <TableCell>{course.courseCode}</TableCell>
+                      <TableCell>{course.courseTitle}</TableCell>
+                      <TableCell>{course.section}</TableCell>
+                      <TableCell>{course.courseInstructor}</TableCell>
+                      <TableCell>{course.creditTaken}</TableCell>
+                      <TableCell>{course.courseCredit}</TableCell>
+                      <TableCell>{course.seat}</TableCell>
+                    </TableRow>
+                  ),
+                )}
               </TableBody>
             </Table>
           </CardContent>
