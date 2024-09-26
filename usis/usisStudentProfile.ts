@@ -1,16 +1,73 @@
 import { CheerioAPI, load } from "cheerio";
 import { AxiosInstance } from "axios";
-import { studentProfileEndpoint } from "./usisApiRoutes";
+import { studentProfileEndpoint, advisedCourses } from "./usisApiRoutes";
+
+interface AdvisedCourse {
+  courseCode: string;
+  courseTitle: string;
+  section: string;
+  courseInstructor: string;
+  creditTaken: string;
+  courseCredit: string;
+  seat: string;
+}
 
 // Function to extract program information
 const extractProgramInfo = ($: CheerioAPI) => {
   const program = {
-    programName: $(".element-input-value-program font.choice-color")
-      .text()
-      .trim(),
+    programName: $(".element-input-value-program").first().text().trim(),
     studentType: $(".element-input-value-program").eq(1).text().trim(),
   };
+
   return program;
+};
+
+// Function to extract advised courses
+const extractAdvisedCourses = ($: CheerioAPI): AdvisedCourse[] => {
+  const courses: AdvisedCourse[] = [];
+
+  $('table tr').slice(1).each((index, element) => {
+    const tds = $(element).find('td');
+
+    if (tds.length >= 7) {
+      const courseCode = tds.eq(0).text().trim();
+      const courseTitle = tds.eq(1).text().trim();
+      const section = tds.eq(2).text().trim();
+      const courseInstructor = tds.eq(3).text().trim();
+      const creditTaken = tds.eq(4).text().trim();
+      const courseCredit = tds.eq(5).text().trim();
+      const seat = tds.eq(6).text().trim();
+
+      const course: AdvisedCourse = {
+        courseCode,
+        courseTitle,
+        section,
+        courseInstructor,
+        creditTaken,
+        courseCredit,
+        seat,
+      };
+      courses.push(course);
+    } else {
+      console.warn(`Row ${index + 1} does not have enough cells.`);
+    }
+  });
+
+  return courses;
+};
+
+// Function to fetch advised courses from the endpoint
+const fetchAdvisedCourses = async (client: AxiosInstance): Promise<AdvisedCourse[]> => {
+  try {
+    const response = await client.get(advisedCourses);
+    const advisedCoursesPage = response.data;
+    const $ = load(advisedCoursesPage);
+    const advisedCoursesList = extractAdvisedCourses($);
+    return advisedCoursesList;
+  } catch (error) {
+    console.error("Error fetching advised courses:", error);
+    return [];
+  }
 };
 
 // Function to extract student information
@@ -34,6 +91,7 @@ const extractStudentInfo = ($: CheerioAPI) => {
     passportNo: $(".element-input-value").eq(13).text().trim(),
     district: $(".element-input-value").eq(14).text().trim(),
     country: $(".element-input-value").eq(15).text().trim(),
+    photoUrl: $("#studentPhotoId").attr("src") || "",
   };
   return student;
 };
@@ -85,30 +143,41 @@ const extractEducationalInfo = ($: CheerioAPI): ExamDetails[] => {
 };
 
 // Function to extract guardian information
+
 const extractGuardianInfo = ($: CheerioAPI) => {
+  $(".element-input-value").each((index, element) => {
+    const label =
+      $(element).prev().text().trim() ||
+      $(element).parent().find("label").text().trim() ||
+      `Unknown Field at Index ${index}`;
+    console.log(`Index ${index}: ${label} - ${$(element).text().trim()}`);
+  });
+
   const guardian = {
     fatherName: $(".element-input-value").eq(16).text().trim(),
     fatherOccupation: $(".element-input-value").eq(17).text().trim(),
     fatherEmail: $(".element-input-value").eq(18).text().trim(),
     fatherHomePhone: $(".element-input-value").eq(19).text().trim(),
     fatherMobile: $(".element-input-value").eq(20).text().trim(),
-    fatherOfficePhone: $(".element-input-value").eq(21).text().trim(),
-    motherName: $(".element-input-value").eq(22).text().trim(),
-    motherOccupation: $(".element-input-value").eq(23).text().trim(),
-    motherEmail: $(".element-input-value").eq(24).text().trim(),
-    motherHomePhone: $(".element-input-value").eq(25).text().trim(),
-    motherMobile: $(".element-input-value").eq(26).text().trim(),
-    localGuardian: $(".element-input-value").eq(27).text().trim(),
-    localGuardianName: $(".element-input-value").eq(28).text().trim(),
-    localGuardianRelation: $(".element-input-value").eq(29).text().trim(),
-    localGuardianPhone: $(".element-input-value").eq(30).text().trim(),
-    localGuardianAddress: $(".element-input-value").eq(31).text().trim(),
-    earningMember: $(".element-input-value").eq(32).text().trim(),
-    monthlyIncome: $(".element-input-value").eq(33).text().trim(),
-    currency: $(".element-input-value").eq(34).text().trim(),
+    fatherOfficePhone: $(".element-input-value").eq(22).text().trim(),
+    motherName: $(".element-input-value").eq(23).text().trim(),
+    motherOccupation: $(".element-input-value").eq(24).text().trim(),
+    motherEmail: $(".element-input-value").eq(27).text().trim(),
+    motherHomePhone: $(".element-input-value").eq(28).text().trim(),
+    motherMobile: $(".element-input-value").eq(30).text().trim(),
+    localGuardian: $(".element-input-value").eq(31).text().trim(),
+    localGuardianName: $(".element-input-value").eq(32).text().trim(),
+    localGuardianRelation: $(".element-input-value").eq(33).text().trim(),
+    localGuardianPhone: $(".element-input-value").eq(34).text().trim(),
+    localGuardianAddress: $(".element-input-value").eq(35).text().trim(),
+    earningMember: $(".element-input-value").eq(36).text().trim(),
+    monthlyIncome: $(".element-input-value").eq(37).text().trim(),
+    currency: $(".element-input-value").eq(38).text().trim(),
   };
+
   return guardian;
 };
+
 
 // Function to extract miscellaneous information
 const extractMiscellaneousInfo = ($: CheerioAPI) => {
@@ -176,6 +245,8 @@ export default async function getProfilePage(client: AxiosInstance) {
   const educationalInfo = extractEducationalInfo($);
   const guardianInfo = extractGuardianInfo($);
   const miscellaneousInfo = extractMiscellaneousInfo($);
+  const advisedCoursesList = await fetchAdvisedCourses(client);
+  console.log("Advised Courses List:", advisedCoursesList);
   console.log(programInfo);
   return {
     programInfo,
@@ -183,5 +254,6 @@ export default async function getProfilePage(client: AxiosInstance) {
     educationalInfo,
     guardianInfo,
     miscellaneousInfo,
+    advisedCoursesList,
   };
 }

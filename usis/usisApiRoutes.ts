@@ -9,4 +9,4 @@ export const courseSequenceEndpoint: string =
 export const studentProfileEndpoint: string =
   "https://usis.bracu.ac.bd/academia/student/showProfile";
 export const semesterEventEndpoint: string =
-  "https://www.bracu.ac.bd/academic/spring/2023/rss.xml";
+  "https://www.bracu.ac.bd/academic/spring/2024/rss.xml";

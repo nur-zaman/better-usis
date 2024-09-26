@@ -44,12 +44,16 @@ export const authOptions: NextAuthOptions = {
             value: credentials ? credentials.email : "",
             maxAge: 2 * 24 * 60 * 60,
             secure: true,
+            httpOnly: false,
+            path: "/",
           });
           cookies().set({
             name: "pwd",
             value: credentials ? credentials.password : "",
             maxAge: 2 * 24 * 60 * 60,
             secure: true,
+            httpOnly: false,
+            path: "/",
           });
           return { id: "", name: "", email: credentials?.email };
         } else {
