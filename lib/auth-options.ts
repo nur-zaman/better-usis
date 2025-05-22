@@ -34,34 +34,34 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         console.log(credentials);
         // const user = { id: "1", name: "John", email: credentials?.email };
-        const userSession = await getClient(
-          credentials?.email,
-          credentials?.password,
-        );
-        if (userSession) {
-          cookies().set({
-            name: "username",
-            value: credentials ? credentials.email : "",
-            maxAge: 2 * 24 * 60 * 60,
-            secure: true,
-            httpOnly: false,
-            path: "/",
-          });
-          cookies().set({
-            name: "pwd",
-            value: credentials ? credentials.password : "",
-            maxAge: 2 * 24 * 60 * 60,
-            secure: true,
-            httpOnly: false,
-            path: "/",
-          });
-          return { id: "", name: "", email: credentials?.email };
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null;
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-        }
+        // const userSession = await getClient(
+        //   credentials?.email,
+        //   credentials?.password,
+        // );
+        // if (userSession) {
+        cookies().set({
+          name: "username",
+          value: "testuser",
+          maxAge: 2 * 24 * 60 * 60,
+          secure: true,
+          httpOnly: false,
+          path: "/",
+        });
+        cookies().set({
+          name: "pwd",
+          value: "testpassword",
+          maxAge: 2 * 24 * 60 * 60,
+          secure: true,
+          httpOnly: false,
+          path: "/",
+        });
+        return { id: "1", name: "Test User", email: credentials?.email };
+        // } else {
+        //   // If you return null then an error will be displayed advising the user to check their details.
+        //   return null;
+        //
+        //   // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        // }
       },
     }),
   ],

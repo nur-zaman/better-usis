@@ -80,13 +80,70 @@ async function getClassSchedule(
   rows: number,
   page: number,
 ) {
-  const ClassScheduleURL = `https://usis.bracu.ac.bd/academia/academicSection/listAcademicSectionWithSchedule?academiaSession=${sessionID}&rows=${rows}&page=${page}`;
+  // const ClassScheduleURL = `https://usis.bracu.ac.bd/academia/academicSection/listAcademicSectionWithSchedule?academiaSession=${sessionID}&rows=${rows}&page=${page}`;
   // console.log(ClassScheduleURL)
   try {
-    const response = await client.get<ClassScheduleResponse>(ClassScheduleURL);
-    const res = response.data;
+    // const response = await client.get<ClassScheduleResponse>(ClassScheduleURL);
+    // const res = response.data;
+    const mockResponse: ClassScheduleResponse = {
+      page: 1,
+      total: 1,
+      records: 1,
+      rows: [
+        {
+          cell: [
+            "1",                             // id
+            "CSE110",                        // course code
+            "Programming Language I",        // course title
+            "1",                             // section
+            30,                              // seat
+            "Department of Computer Science",// department
+            "CSE",                           // department short code
+            "Mr. Mock Faculty",              // faculty name
+            "MF",                            // faculty initial
+            "01-01-2024",                    // examDate
+            "Sunday (02:00 PM-03:20 PM)",    // examTime raw
+            "02:00 PM-03:20 PM",             // sunday
+            null,                            // monday
+            null,                            // tuesday
+            "02:00 PM-03:20 PM",             // wednesday
+            null,                            // thursday
+            null,                            // friday
+            null,                            // saturday
+          ],
+          class: "some-class-info",
+          id: "1",
+        },
+        {
+          cell: [
+            "2",
+            "MAT110",
+            "Mathematics I",
+            "3",
+            35,
+            "Department of Mathematics",
+            "MAT",
+            "Ms. Another Mock",
+            "AM",
+            "02-01-2024",
+            "Monday (10:00 AM-11:20 AM)",
+            null,
+            "10:00 AM-11:20 AM",
+            null,
+            null,
+            "10:00 AM-11:20 AM",
+            null,
+            null,
+          ],
+          class: "some-other-class-info",
+          id: "2",
+        },
+      ],
+      totalEntry: 1,
+      marksNotEntry: 0,
+    };
 
-    const classSchedule: ClassScheduleForCourseDetails[] = res.rows.map(
+    const classSchedule: ClassScheduleForCourseDetails[] = mockResponse.rows.map(
       (item) => convertToClassSchedule(item.cell),
     );
     return classSchedule;
@@ -99,11 +156,21 @@ async function getClassSchedule(
 async function getClassScheduleColumns(
   client: AxiosInstance,
 ): Promise<TimeSlotDay[] | undefined> {
-  const url = `https://usis.bracu.ac.bd/academia/academicSection/loadAcademicSectionWithScheduleGrid`;
+  // const url = `https://usis.bracu.ac.bd/academia/academicSection/loadAcademicSectionWithScheduleGrid`;
 
   try {
-    const response = await client.get<TimeSlotDay[]>(url);
-    return response.data;
+    // const response = await client.get<TimeSlotDay[]>(url);
+    // return response.data;
+    const mockColumns: TimeSlotDay[] = [
+      { class: "css-class-for-sunday", id: 1, version: 0, colorCode: "#DAF7A6", dayName: "Sunday", isActive: true, orderNo: 7 },
+      { class: "css-class-for-monday", id: 2, version: 0, colorCode: "#FFC300", dayName: "Monday", isActive: true, orderNo: 1 },
+      { class: "css-class-for-tuesday", id: 3, version: 0, colorCode: "#FF5733", dayName: "Tuesday", isActive: true, orderNo: 2 },
+      { class: "css-class-for-wednesday", id: 4, version: 0, colorCode: "#C70039", dayName: "Wednesday", isActive: true, orderNo: 3 },
+      { class: "css-class-for-thursday", id: 5, version: 0, colorCode: "#900C3F", dayName: "Thursday", isActive: true, orderNo: 4 },
+      { class: "css-class-for-friday", id: 6, version: 0, colorCode: "#581845", dayName: "Friday", isActive: true, orderNo: 5 },
+      { class: "css-class-for-saturday", id: 7, version: 0, colorCode: "#123456", dayName: "Saturday", isActive: true, orderNo: 6 },
+    ];
+    return mockColumns;
   } catch (error) {
     console.error("Error during data fetching:", error);
     return undefined;

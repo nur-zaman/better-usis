@@ -35,12 +35,42 @@ function parsePrereqApiResponse(response: preReqApiResponse): preReqData[] {
 //   console.log(parsedCourses);
 
 export default async function getPrereqCourseInfo(client: AxiosInstance) {
-  const apiResponse = await client.get(
-    "https://usis.bracu.ac.bd/academia/academicCoursePreRequisite/preRequsitelist?rows=9999",
-  );
-  // const apiResponse =
-  //   '{"page":1,"total":146,"records":727,"rows":[{"cell":["1","STA510(RESEARCH METHODOLOGIES)","STA501(BUSINESS STATISTICS)","3"],"class":"com.docu.common.GridEntity","id":null},{"cell":["2","SOC420(SOCIOLOGY OF RELIGION)","SOC101(INTRODUCTION TO SOCIOLOGY)LINE_BREAKSOC301(SOCIOLOGICAL THEORY)LINE_BREAKSOC390(SOCIOLOGY OF DEVIANCE)","3LINE_BREAK3LINE_BREAK3"],"class":"com.docu.common.GridEntity","id":null},{"cell":["3","SOC410(THE INDIVIDUAL, SOCIETY AND SOCIAL CONTROL)","SOC301(SOCIOLOGICAL THEORY)LINE_BREAKSOC390(SOCIOLOGY OF DEVIANCE)LINE_BREAKSOC101(INTRODUCTION TO SOCIOLOGY)","3LINE_BREAK3LINE_BREAK3"],"class":"com.docu.common.GridEntity","id":null},{"cell":["4","SOC401(GENDER AND DEVELOPMENT)","SOC101(INTRODUCTION TO SOCIOLOGY)","3"],"class":"com.docu.common.GridEntity","id":null},{"cell":["5","SOC390(SOCIOLOGY OF DEVIANCE)","SOC101(INTRODUCTION TO SOCIOLOGY)","3"],"class":"com.docu.common.GridEntity","id":null}]}';
+  // const apiResponse = await client.get(
+  //   "https://usis.bracu.ac.bd/academia/academicCoursePreRequisite/preRequsitelist?rows=9999",
+  // );
+  const mockApiResponseData: preReqApiResponse = {
+    page: 1,
+    total: 1, // Adjusted for mock
+    records: 5, // Adjusted for mock (number of courses with prerequisites defined)
+    rows: [
+      {
+        cell: ["1", "CSE220(Data Structures)", "CSE110(Programming I)", "3"],
+        class: "com.docu.common.GridEntity",
+        id: null
+      },
+      {
+        cell: ["2", "CSE221(Algorithms)", "CSE220(Data Structures)", "3"],
+        class: "com.docu.common.GridEntity",
+        id: null
+      },
+      {
+        cell: ["3", "MAT216(Calculus II)", "MAT110(Calculus I)", "3"],
+        class: "com.docu.common.GridEntity",
+        id: null
+      },
+      {
+        cell: ["4", "PHY112(Physics II)", "PHY111(Physics I)", "3"],
+        class: "com.docu.common.GridEntity",
+        id: null
+      },
+      {
+        cell: ["5", "CSE370(Database Systems)", "CSE220(Data Structures)\nCSE230(Discrete Mathematics)", "3\n3"], // Example of multiple prerequisites
+        class: "com.docu.common.GridEntity",
+        id: null
+      }
+    ]
+  };
 
-  const parsedApiResponse = parsePrereqApiResponse(apiResponse.data);
+  const parsedApiResponse = parsePrereqApiResponse(mockApiResponseData);
   return parsedApiResponse;
 }

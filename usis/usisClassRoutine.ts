@@ -8,14 +8,36 @@ import {
 
 export default async function getClassRoutineData(client: AxiosInstance) {
   try {
-    await client.get("https://usis.bracu.ac.bd/academia/");
-    const response = await client.get(
-      "https://usis.bracu.ac.bd/academia/academicSection/showStudentClassSchedule",
-    ); // Replace with your actual API endpoint
-    const html = response.data;
-    const schedule = getScheduleTableStructure(html);
-    const details = extractCourseDetails(html);
-    return combineData(schedule, details);
+    // await client.get("https://usis.bracu.ac.bd/academia/");
+    // const response = await client.get(
+    //   "https://usis.bracu.ac.bd/academia/academicSection/showStudentClassSchedule",
+    // ); // Replace with your actual API endpoint
+    // const html = response.data;
+    // const schedule = getScheduleTableStructure(html);
+    // const details = extractCourseDetails(html);
+    const mockSchedule: ClassRoutineTimeSlot[] = [
+      {
+        time: "08:00 AM - 09:20 AM",
+        days: {
+          Sunday: { id: "1_1", courseId: "CSE110", faculty: "XYZ", room: "UB10101" },
+          Tuesday: { id: "1_2", courseId: "MAT110", faculty: "ABC", room: "UB10102" },
+        },
+      },
+      {
+        time: "09:30 AM - 10:50 AM",
+        days: {
+          Sunday: { id: "2_1", courseId: "CSE111", faculty: "PQR", room: "UB10103" },
+          Wednesday: { id: "2_2", courseId: "PHY111", faculty: "LMN", room: "UB10104" },
+        },
+      },
+    ];
+    const mockDetails: ClassRoutineDetail[] = [
+      { id: "1_1", courseId: "CSE110", faculty: "XYZ", room: "UB10101" },
+      { id: "1_2", courseId: "MAT110", faculty: "ABC", room: "UB10102" },
+      { id: "2_1", courseId: "CSE111", faculty: "PQR", room: "UB10103" },
+      { id: "2_2", courseId: "PHY111", faculty: "LMN", room: "UB10104" },
+    ];
+    return combineData(mockSchedule, mockDetails);
   } catch (error) {
     console.error("Error fetching data:", error);
   }

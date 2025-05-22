@@ -23,45 +23,80 @@ type AxiosResponseWithCourseSequence = AxiosResponse<CourseSequenceResponse>;
 export default async function getCourseSeq(
   client: AxiosInstance,
 ): Promise<CourseSequenceResponse> {
-  const response: AxiosResponseWithCourseSequence = await client.get(
-    courseSequenceEndpoint,
-  );
-  const htmlBody: any = response.data;
-  const $ = load(htmlBody);
-  const tableRows = $(".course-sequence-table tr");
+  // const response: AxiosResponseWithCourseSequence = await client.get(
+  //   courseSequenceEndpoint,
+  // );
+  // const htmlBody: any = response.data;
+  // const $ = load(htmlBody);
+  // const tableRows = $(".course-sequence-table tr");
+  //
+  // const courseSequence: CourseSequence[] = [];
+  //
+  // // Helper function to check for duplicates
+  // function isDuplicate(courses: Course[], courseText: string): boolean {
+  //   return courses.some((course) => course.course === courseText);
+  // }
+  //
+  // // Iterate over each row in the table (skipping the header row)
+  // $(".course-sequence-table tr:not(:first-child)").each((index, row) => {
+  //   const semester: string = $(row).find("td:first-child").text();
+  //   const courses: Course[] = [];
+  //
+  //   // Iterate over each cell in the row (skipping the first cell which contains the semester)
+  //   $(row)
+  //     .find("td:not(:first-child)")
+  //     .each((index, cell) => {
+  //       const courseText: string = $(cell).find("div").text() || $(cell).text();
+  //       const courseColor: string = $(cell).find("div").attr("style") || "";
+  //
+  //       // Check for duplicates before adding a course
+  //       if (!isDuplicate(courses, courseText)) {
+  //         courses.push({
+  //           course: courseText,
+  //           color: courseColor,
+  //         });
+  //       }
+  //     });
+  //
+  //   courseSequence.push({
+  //     semester,
+  //     courses,
+  //   });
+  // });
+  // return courseSequence;
 
-  const courseSequence: CourseSequence[] = [];
-
-  // Helper function to check for duplicates
-  function isDuplicate(courses: Course[], courseText: string): boolean {
-    return courses.some((course) => course.course === courseText);
-  }
-
-  // Iterate over each row in the table (skipping the header row)
-  $(".course-sequence-table tr:not(:first-child)").each((index, row) => {
-    const semester: string = $(row).find("td:first-child").text();
-    const courses: Course[] = [];
-
-    // Iterate over each cell in the row (skipping the first cell which contains the semester)
-    $(row)
-      .find("td:not(:first-child)")
-      .each((index, cell) => {
-        const courseText: string = $(cell).find("div").text() || $(cell).text();
-        const courseColor: string = $(cell).find("div").attr("style") || "";
-
-        // Check for duplicates before adding a course
-        if (!isDuplicate(courses, courseText)) {
-          courses.push({
-            course: courseText,
-            color: courseColor,
-          });
-        }
-      });
-
-    courseSequence.push({
-      semester,
-      courses,
-    });
-  });
-  return courseSequence;
+  const mockCourseSequence: CourseSequenceResponse = [
+    {
+      semester: "Spring 2023",
+      courses: [
+        { course: "CSE110", color: "background-color:#DFF0D8;" }, // Example green
+        { course: "MAT110", color: "background-color:#F2DEDE;" }, // Example red
+        { course: "ENG101", color: "background-color:#FCF8E3;" }, // Example yellow
+      ],
+    },
+    {
+      semester: "Summer 2023",
+      courses: [
+        { course: "CSE220", color: "background-color:#D9EDF7;" }, // Example blue
+        { course: "PHY111", color: "background-color:#E8E8E8;" }, // Example grey
+        { course: "HUM101", color: "" }, // No color
+      ],
+    },
+    {
+      semester: "Fall 2023",
+      courses: [
+        { course: "CSE230", color: "background-color:#DFF0D8;" },
+        { course: "STA201", color: "background-color:#F2DEDE;" },
+      ],
+    },
+    {
+      semester: "Spring 2024",
+      courses: [
+        { course: "CSE370", color: "background-color:#FCF8E3;" },
+        { course: "ENV107", color: "" },
+        { course: "GED200", color: "background-color:#D9EDF7;" },
+      ],
+    },
+  ];
+  return mockCourseSequence;
 }

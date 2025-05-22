@@ -59,11 +59,41 @@ const extractAdvisedCourses = ($: CheerioAPI): AdvisedCourse[] => {
 // Function to fetch advised courses from the endpoint
 const fetchAdvisedCourses = async (client: AxiosInstance): Promise<AdvisedCourse[]> => {
   try {
-    const response = await client.get(advisedCourses);
-    const advisedCoursesPage = response.data;
-    const $ = load(advisedCoursesPage);
-    const advisedCoursesList = extractAdvisedCourses($);
-    return advisedCoursesList;
+    // const response = await client.get(advisedCourses);
+    // const advisedCoursesPage = response.data;
+    // const $ = load(advisedCoursesPage);
+    // const advisedCoursesList = extractAdvisedCourses($);
+    // return advisedCoursesList;
+    const mockAdvisedCoursesList: AdvisedCourse[] = [
+      {
+        courseCode: "CSE110",
+        courseTitle: "Programming Language I",
+        section: "1",
+        courseInstructor: "Mock Instructor A",
+        creditTaken: "3.0",
+        courseCredit: "3.0",
+        seat: "Open"
+      },
+      {
+        courseCode: "MAT110",
+        courseTitle: "Calculus I",
+        section: "3",
+        courseInstructor: "Mock Instructor B",
+        creditTaken: "3.0",
+        courseCredit: "3.0",
+        seat: "Closed"
+      },
+      {
+        courseCode: "ENG101",
+        courseTitle: "English Reading Skills",
+        section: "5",
+        courseInstructor: "Mock Instructor C",
+        creditTaken: "3.0",
+        courseCredit: "3.0",
+        seat: "Open"
+      }
+    ];
+    return mockAdvisedCoursesList;
   } catch (error) {
     console.error("Error fetching advised courses:", error);
     return [];
@@ -236,24 +266,144 @@ const extractMiscellaneousInfo = ($: CheerioAPI) => {
 };
 
 export default async function getProfilePage(client: AxiosInstance) {
-  await client.get("https://usis.bracu.ac.bd/academia/");
-  const response = await client.get(studentProfileEndpoint);
-  const profilePage = response.data;
-  const $ = load(profilePage);
-  const programInfo = extractProgramInfo($);
-  const studentInfo = extractStudentInfo($);
-  const educationalInfo = extractEducationalInfo($);
-  const guardianInfo = extractGuardianInfo($);
-  const miscellaneousInfo = extractMiscellaneousInfo($);
+  // await client.get("https://usis.bracu.ac.bd/academia/");
+  // const response = await client.get(studentProfileEndpoint);
+  // const profilePage = response.data;
+  // const $ = load(profilePage);
+  // const programInfo = extractProgramInfo($);
+  // const studentInfo = extractStudentInfo($);
+  // const educationalInfo = extractEducationalInfo($);
+  // const guardianInfo = extractGuardianInfo($);
+  // const miscellaneousInfo = extractMiscellaneousInfo($);
+
+  const mockProgramInfo = {
+    programName: "Bachelor of Science in Computer Science and Engineering",
+    studentType: "Regular",
+  };
+
+  const mockStudentInfo = {
+    studentID: "20101001",
+    fullName: "Mock Student Name",
+    gender: "Male",
+    dateOfBirth: "01/01/2000",
+    placeOfBirth: "Mock City, Mock Country",
+    maritalStatus: "Single",
+    mobileNumber: "+8801234567890",
+    nationality: "Mocklander",
+    religion: "Mockism",
+    mailingAddress: "123 Mock Street, Mocktown, MK 12345",
+    permanentAddress: "456 Old Lane, Mockville, MK 67890",
+    homePhone: "+88029876543",
+    email: "mock.student@example.com",
+    nationalID: "1234567890123",
+    bloodGroup: "O+",
+    passportNo: "M12345678",
+    district: "Mock District",
+    country: "Mockland",
+    photoUrl: "https://via.placeholder.com/150/0000FF/808080?Text=MockStudent",
+  };
+
+  const mockEducationalInfo: ExamDetails[] = [
+    {
+      examTitle: "Secondary School Certificate (SSC)",
+      data: [
+        {
+          institute: "Mock School A",
+          board: "Mock Board A",
+          passingYear: "2016",
+          academicGroup: "Science",
+          resultType: "GPA",
+          gpaWithAdditional: "5.00",
+          gpaWithoutAdditional: "5.00",
+          medium: "Bangla",
+        },
+      ],
+    },
+    {
+      examTitle: "Higher Secondary Certificate (HSC)",
+      data: [
+        {
+          institute: "Mock College B",
+          board: "Mock Board B",
+          passingYear: "2018",
+          academicGroup: "Science",
+          resultType: "GPA",
+          gpaWithAdditional: "5.00",
+          gpaWithoutAdditional: "4.80",
+          medium: "English",
+        },
+      ],
+    },
+  ];
+
+  const mockGuardianInfo = {
+    fatherName: "Mr. Mock Father",
+    fatherOccupation: "Engineer",
+    fatherEmail: "father.mock@example.com",
+    fatherHomePhone: "+88021122334",
+    fatherMobile: "+8801987654321",
+    fatherOfficePhone: "+88025566778",
+    motherName: "Mrs. Mock Mother",
+    motherOccupation: "Teacher",
+    motherEmail: "mother.mock@example.com",
+    motherHomePhone: "+88023344556",
+    motherMobile: "+8801654321098",
+    localGuardian: "N/A",
+    localGuardianName: "",
+    localGuardianRelation: "",
+    localGuardianPhone: "",
+    localGuardianAddress: "",
+    earningMember: "Father",
+    monthlyIncome: "100000",
+    currency: "BDT",
+  };
+
+  const mockMiscellaneousInfo = {
+    academicHonors: "Dean's List 2021, 2022",
+    scholarshipDetails: "Merit Scholarship 50%",
+    awardDetails: "N/A",
+    honorDetails: "N/A", // Note: Original logic points to an index that might be part of guardian info. Using a placeholder.
+    dismissedFromInstitution: "No",
+    dismissalDetails: "",
+    admittedToBRACUniversity: "Yes",
+    bracAdmissionDetails: {
+      admissionYear: "2020",
+      semester: "Spring",
+      studentID: "20101001", // Repeated from studentInfo
+    },
+    admittedToOtherUniversity: "No",
+    otherUniversityName: "",
+    studyPeriod: {
+      from: "",
+      to: "",
+    },
+    ieltsScore: "7.5",
+    ieltsValidity: "01/01/2025",
+    toeflScore: "N/A",
+    toeflValidity: "N/A",
+    satScore: "N/A",
+    satValidity: "N/A",
+    greGmatScore: "N/A",
+    greGmatValidity: "N/A",
+    otherLanguageProficiency: "German (Basic)",
+    hasExperience: "No",
+    experienceYears: "",
+    organizationsWorkedAt: "",
+    coCurricularActivities: "Debate Club, Photography Society",
+    coCurricularDetails: "Active member in both.",
+    coCurricularAwards: "Best Debater 2021",
+    coCurricularAwardsDetails: "Inter-university debate competition.",
+  };
+
   const advisedCoursesList = await fetchAdvisedCourses(client);
-  console.log("Advised Courses List:", advisedCoursesList);
-  console.log(programInfo);
+  // console.log("Advised Courses List:", advisedCoursesList);
+  // console.log(mockProgramInfo);
   return {
-    programInfo,
-    studentInfo,
-    educationalInfo,
-    guardianInfo,
-    miscellaneousInfo,
+    programInfo: mockProgramInfo,
+    studentInfo: mockStudentInfo,
+    educationalInfo: mockEducationalInfo,
+    guardianInfo: mockGuardianInfo,
+    miscellaneousInfo: mockMiscellaneousInfo,
     advisedCoursesList,
   };
 }

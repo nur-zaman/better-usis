@@ -12,12 +12,50 @@ import { gradeSheetEndpoint } from "./usisApiRoutes";
 export async function getGradeSheetData(
   client: AxiosInstance,
 ): Promise<GradeSheetParsedData> {
-  await client.get("https://usis.bracu.ac.bd/academia/");
-  const routine = await client.get(gradeSheetEndpoint);
-  const html: string = routine.data;
-  // console.log(html);
-  // console.log(client.defaults.headers.common);
-  return parseGradeSheet(html);
+  // await client.get("https://usis.bracu.ac.bd/academia/");
+  // const routine = await client.get(gradeSheetEndpoint);
+  // const html: string = routine.data;
+  // // console.log(html);
+  // // console.log(client.defaults.headers.common);
+  // return parseGradeSheet(html);
+
+  const mockGradeSheetData: GradeSheetParsedData = {
+    studentIdNo: "20101001",
+    name: "Test Student",
+    program: "Computer Science and Engineering",
+    semesters: [
+      {
+        semester: "Spring 2023",
+        courses: [
+          { courseNo: "CSE110", courseTitle: "Programming I", courseCredit: 3.0, creditEarned: 3.0, grade: "A", gradePoint: 4.0 },
+          { courseNo: "MAT110", courseTitle: "Mathematics I", courseCredit: 3.0, creditEarned: 3.0, grade: "A-", gradePoint: 3.7 },
+          { courseNo: "ENG101", courseTitle: "English Reading Skills", courseCredit: 3.0, creditEarned: 3.0, grade: "B+", gradePoint: 3.3 },
+        ],
+        semesterResult: { creditsAttemped: 9.0, creditsEarned: 9.0, GPA: 3.67 },
+        overallResult: { creditsAttemped: 9.0, creditsEarned: 9.0, CGPA: 3.67 },
+      },
+      {
+        semester: "Summer 2023",
+        courses: [
+          { courseNo: "CSE111", courseTitle: "Programming II", courseCredit: 3.0, creditEarned: 3.0, grade: "A", gradePoint: 4.0 },
+          { courseNo: "PHY111", courseTitle: "Physics I", courseCredit: 3.0, creditEarned: 3.0, grade: "B", gradePoint: 3.0 },
+          { courseNo: "HUM103", courseTitle: "Ethics and Culture", courseCredit: 3.0, creditEarned: 0.0, grade: "F", gradePoint: 0.0 },
+        ],
+        semesterResult: { creditsAttemped: 9.0, creditsEarned: 6.0, GPA: 2.33 },
+        overallResult: { creditsAttemped: 18.0, creditsEarned: 15.0, CGPA: 3.0 },
+      },
+      {
+        semester: "Fall 2023",
+        courses: [
+          { courseNo: "CSE220", courseTitle: "Data Structures", courseCredit: 3.0, creditEarned: 3.0, grade: "A-", gradePoint: 3.7 },
+          { courseNo: "STA201", courseTitle: "Statistics for Engineers", courseCredit: 3.0, creditEarned: 3.0, grade: "A", gradePoint: 4.0 },
+        ],
+        semesterResult: { creditsAttemped: 6.0, creditsEarned: 6.0, GPA: 3.85 },
+        overallResult: { creditsAttemped: 24.0, creditsEarned: 21.0, CGPA: 3.21 },
+      },
+    ],
+  };
+  return mockGradeSheetData;
 }
 
 function parseCreditsAttempted(text: string): number {
